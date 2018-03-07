@@ -54,7 +54,7 @@ public class MotionProfileFollower {
     /**
      * The motion profile to write to the Talon.
      */
-    private MotionProfileReader _motionProfile;
+    private MotionProfileReader _motionProfileReader;
 
     /**
      * State machine to make sure we let enough of the motion profile stream to
@@ -121,8 +121,9 @@ public class MotionProfileFollower {
      * @param talon
      *            reference to Talon object to fetch motion profile status from.
      */
-    public MotionProfileFollower(TalonSRX talon, MotionProfileReader motionProfile) {
+    public MotionProfileFollower(TalonSRX talon, MotionProfileReader motionProfileReader) {
         _talon = talon;
+        _motionProfileReader = motionProfileReader;
         /*
          * since our MP is 10ms per point, set the control frame rate and the
          * notifer to half that
@@ -283,7 +284,7 @@ public class MotionProfileFollower {
     /** Start filling the MPs to all of the involved Talons. */
     private void startFilling() {
         /* since this example only has one talon, just update that one */
-        startFilling(_motionProfile.getPoints(), _motionProfile.getPoints().length);
+        startFilling(_motionProfileReader.getPoints(), _motionProfileReader.getPoints().length);
     }
 
     private void startFilling(double[][] profile, int totalCnt) {
